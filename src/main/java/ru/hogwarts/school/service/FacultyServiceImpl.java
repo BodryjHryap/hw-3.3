@@ -46,7 +46,14 @@ public class FacultyServiceImpl implements FacultyService {
     public List<Faculty> getFacultyByColor(String color) {
         return facultyRepository.findAll()
                 .stream()
-                .filter(faculty -> faculty.getColor().equals(color))
+                .filter(faculty -> faculty.getColor().equalsIgnoreCase(color))
+                .toList();
+    }
+
+    public List<Faculty> getByName(String name) {
+        return facultyRepository.findAll()
+                .stream()
+                .filter(faculty -> faculty.getName().equalsIgnoreCase(name))
                 .toList();
     }
 }

@@ -15,4 +15,6 @@ public interface StudentService {
 
     List<Student> getStudentByAge(int age);
 
+    List<Student> getWhenAgeBetween(Integer minAge, Integer maxAge);
+
 }
