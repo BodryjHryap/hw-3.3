@@ -1,10 +1,12 @@
 package ru.hogwarts.school.controller;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/students")
@@ -39,5 +41,10 @@ public class StudentController {
     @GetMapping
     public Collection<Student> getStudentsByAge(@RequestParam Integer age) {
         return studentService.getStudentByAge(age);
+    }
+
+    @GetMapping("/age-between")
+    public List<Student> getWhenAgeBetween(@RequestParam Integer minAge, @RequestParam Integer maxAge) {
+        return studentService.getWhenAgeBetween(minAge, maxAge);
     }
 }

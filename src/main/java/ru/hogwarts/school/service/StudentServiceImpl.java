@@ -52,4 +52,8 @@ public class StudentServiceImpl implements StudentService {
                 .filter(student -> student.getAge() == age)
                 .toList();
     }
+
+    public List<Student> getWhenAgeBetween(Integer minAge, Integer maxAge) {
+        return studentRepository.findAllByAgeBetween(minAge, maxAge);
+    }
 }
