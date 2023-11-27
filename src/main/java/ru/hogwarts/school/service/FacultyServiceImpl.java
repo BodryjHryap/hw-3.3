@@ -2,50 +2,51 @@ package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.repository.FacultyRepository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class FacultyServiceImpl implements FacultyService {
 
-    private Map<Long, Faculty> facultyMap = new HashMap<>();
+    private final FacultyRepository facultyRepository;
 
-    private long counter = 0;
+    public FacultyServiceImpl(FacultyRepository facultyRepository) {
+        this.facultyRepository = facultyRepository;
+    }
 
     @Override
 
     public Faculty addFaculty(Faculty faculty) {
-        long id = counter++;
-        Faculty newFaculty = new Faculty(id, faculty.getName(), faculty.getColor());
-        facultyMap.put(id, newFaculty);
-        return newFaculty;
+        Faculty newFaculty = new Faculty(faculty.getName(), faculty.getColor());
+        return facultyRepository.save(newFaculty);
     }
 
     @Override
     public Faculty getFaculty(Long id) {
-        return facultyMap.get(id);
+        return facultyRepository.findById(id).get();
     }
 
     @Override
     public Faculty updateFaculty(Long id, Faculty faculty) {
-        Faculty updatingFaculty = facultyMap.get(id);
+        Faculty updatingFaculty = facultyRepository.findById(id).get();
         updatingFaculty.setName(faculty.getName());
         updatingFaculty.setColor(faculty.getColor());
         return updatingFaculty;
     }
 
     @Override
-    public void removeFaculty(Long id) {
-        facultyMap.remove(id);
+    public Faculty removeFaculty(Long id) {
+        Faculty facultyForDelete = facultyRepository.findById(id).get();
+        facultyRepository.delete(facultyForDelete);
+        return facultyForDelete;
     }
 
     @Override
     public List<Faculty> getFacultyByColor(String color) {
-        return facultyMap.values()
+        return facultyRepository.findAll()
                 .stream()
-                .filter(faculty -> faculty.getColor() == color)
+                .filter(faculty -> faculty.getColor().equals(color))
                 .toList();
     }
 }

@@ -32,8 +32,8 @@ public class FacultyController {
     }
 
     @DeleteMapping("/{id}")
-    public void removeMapping(@PathVariable Long id) {
-        facultyService.removeFaculty(id);
+    public Faculty removeMapping(@PathVariable Long id) {
+        return facultyService.removeFaculty(id);
     }
 
     @GetMapping
